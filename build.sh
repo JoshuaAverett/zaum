@@ -6,10 +6,12 @@ set -e
 	mkdir -p output
 
 	compile_file "test-main"
+	compile_file "test"
 
 	cd output
 		clang -o test \
-			test-main.o
+			test-main.o \
+			test.o
 
 		./test
 	cd ../..
