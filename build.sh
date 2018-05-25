@@ -1,6 +1,6 @@
 set -e
 	compile_file () {
-		clang -c -g -I "include" "src/$1.c" -o "output/$1.o"
+		clang -c -g -std=gnu11 -I "include" "src/$1.c" -o "output/$1.o" -Weverything
 	}
 
 	mkdir -p output

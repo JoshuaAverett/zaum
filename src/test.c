@@ -2,8 +2,10 @@
 
 #include <stdio.h>
 
-static const U32 test_tab_width = 2;
-static const U32 test_group_max_depth = 64;
+enum {
+	test_tab_width = 2,
+	test_group_max_depth = 64,
+};
 
 static U32 test_group_depth = 0;
 static cstr test_group_names [test_group_max_depth];
@@ -18,7 +20,7 @@ static int test_spacing_width (
 	in U32 depth
 ) {
 	const int line_width = 64;
-	return test_tab_width * test_group_depth - line_width;
+	return (int)(test_tab_width * depth) - line_width;
 }
 
 void test_group_start (
