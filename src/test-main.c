@@ -4,8 +4,8 @@ static void parse_test_arguments (
 	in int args_count,
 	in cstr * args
 ) {
-	(void)args_count;
-	(void)args;
+	unused(args_count);
+	unused(args);
 }
 
 int main (
@@ -15,8 +15,7 @@ int main (
 	parse_test_arguments(args_count, args);
 
 	test_group_start("Main");
-		bool passed = true;
-	test_group_end(passed);
+	test_group_end();
 
 	return 0;
 }

@@ -6,9 +6,7 @@ void test_group_start (
 	in ccstr group_name
 );
 
-void test_group_end (
-	in bool passed
-);
+void test_group_end (void);
 
 void test_start (
 	in ccstr test_name
