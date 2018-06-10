@@ -14,8 +14,16 @@ int main (
 ) {
 	parse_test_arguments(args_count, args);
 
-	test_group_start("Main");
+	test_group_start("Root");
+		test_group_start("Test system");
+			test_start("Trivial");
+				test_assert(true);
+			test_end();
+		test_group_end();
+
 	test_group_end();
+
+	test_finish();
 
 	return 0;
 }
