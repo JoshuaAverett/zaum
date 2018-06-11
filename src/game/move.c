@@ -1,11 +1,36 @@
 #include <game/move-impl.h>
 
+#include <malloc.h>
+
+// CONSTRUCTORS
+
+Move * create_move (
+	in MoveVtbl * vptr
+) {
+	Move * this = malloc(vptr->size);
+	if (!this) goto error_alloc;
+
+	this->vptr = vptr;
+
+	return this;
+
+error_alloc:
+	assert(false);
+}
+
+void destroy_move (
+	in_out Move * this
+) {
+	this->vptr->destroy(this);
+	free(this);
+}
+
 // METHODS
 
 String * move_display (
 	in Move * this
 ) {
-	return this->display(this);
+	return this->vptr->display(this);
 }
 
 // TESTS
