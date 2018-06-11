@@ -1,8 +1,12 @@
 #include <test-main.h>
 
+#include <iostream>
+
 int main (
-	in int arg_count,
-	in char ** args
+	const int arg_count,
+	const char ** args
 ) {
+	std::cout << "Zaum Tests" << std::endl;
+
 	return 0;
 }
