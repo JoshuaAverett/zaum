@@ -21,6 +21,7 @@ int main (
 			test_end();
 		test_group_end();
 
+		test_string();
 	test_group_end();
 
 	test_finish();
