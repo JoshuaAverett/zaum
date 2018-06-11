@@ -1,4 +1,4 @@
-#include <test-main.h>
+#include <test-main.hpp>
 
 #include <iostream>
 
