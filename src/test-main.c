@@ -22,6 +22,10 @@ int main (
 		test_group_start("Core");
 			test_string();
 		test_group_end();
+
+		test_group_start("Game");
+			test_move();
+		test_group_end();
 	test_group_end();
 
 	test_finish();

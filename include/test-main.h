@@ -6,6 +6,8 @@
 
 #include <core/string.h>
 
+#include <game/move.h>
+
 // STATIC METHODS
 
 int main (
