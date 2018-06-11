@@ -2,7 +2,7 @@
 
 static void parse_test_arguments (
 	in int args_count,
-	in cstr * args
+	in char ** args
 ) {
 	unused(args_count);
 	unused(args);
@@ -10,7 +10,7 @@ static void parse_test_arguments (
 
 int main (
 	in int args_count,
-	in cstr * args
+	in char ** args
 ) {
 	parse_test_arguments(args_count, args);
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#define in
+#define in const
 #define out
 #define in_out
 

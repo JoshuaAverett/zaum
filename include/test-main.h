@@ -6,5 +6,5 @@
 
 int main (
 	in int args_count,
-	in cstr * args
+	in char ** args
 );

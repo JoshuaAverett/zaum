@@ -10,14 +10,14 @@ enum {
 
 static U32 test_group_depth = 0;
 static struct {
-	cstr name;
+	const char * name;
 	bool passed;
 } test_groups [test_group_max_depth];
 
 static void test_message_print (
-	in ccstr header,
-	in ccstr body,
-	in ccstr tag
+	in char * header,
+	in char * body,
+	in char * tag
 ) {
 	// Display test group progress message
 	int header_length;
@@ -34,12 +34,12 @@ static void test_message_print (
 	);
 }
 
-static ccstr test_pass_message () {
+static const char * test_pass_message () {
 	return test_groups[test_group_depth].passed ? "PASSED" : "FAILED";
 }
 
 void test_group_start (
-	in ccstr group_name
+	in char * group_name
 ) {
 	// Update group data
 	assert(test_group_depth < test_group_max_depth);
@@ -65,7 +65,7 @@ void test_group_end () {
 }
 
 void test_start (
-	in ccstr test_name
+	in char * test_name
 ) {
 	// Tests must be in groups
 	assert(test_group_depth > 0);
@@ -99,7 +99,7 @@ void test_finish () {
 }
 
 void test_assert_inner (
-	in ccstr form,
+	in char * form,
 	in bool value
 ) {
 	// Asserts must be in tests
