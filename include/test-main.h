@@ -2,7 +2,11 @@
 
 #include <master.h>
 
-#include <test.h>
+// TEST INCLUDES
+
+#include <core/string.h>
+
+// STATIC METHODS
 
 int main (
 	in int args_count,

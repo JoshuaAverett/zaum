@@ -1,6 +1,9 @@
 #pragma once
 
-#include <master.h>
+#include <prelude/compiler.h>
+#include <prelude/annotation.h>
+#include <prelude/assert.h>
+#include <prelude/types.h>
 
 void test_group_start (
 	in char * group_name
