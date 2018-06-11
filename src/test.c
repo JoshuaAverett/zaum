@@ -111,3 +111,13 @@ void test_assert_inner (
 	// Display progress message
 	test_message_print("  ASSERT", form, test_pass_message());
 }
+
+// TESTS
+
+void test_test () {
+	test_group_start("Test");
+		test_start("Trivial");
+			test_assert(true);
+		test_end();
+	test_group_end();
+}

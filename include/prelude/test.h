@@ -5,6 +5,8 @@
 #include <prelude/assert.h>
 #include <prelude/types.h>
 
+// STATIC METHODS
+
 void test_group_start (
 	in char * group_name
 );
@@ -25,3 +27,7 @@ void test_assert_inner (
 	in char * form,
 	in bool value
 );
+
+// TESTS
+
+void test_test (void);
