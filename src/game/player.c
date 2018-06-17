@@ -1,37 +1,17 @@
 #include <game/player.h>
 
-#include <malloc.h>
-
-// STRUCTURES
-
-struct Player {
-	bool is_top;
-	String * name;
-};
-
 // CONSTRUCTORS
 
 Player * create_player (
-	in bool is_top,
-	in String * name
+	in bool is_top
 ) {
-	Player * this = malloc(sizeof(Player));
-	if (!this) goto error_alloc;
-
-	this->is_top = is_top;
-	this->name = string_copy(name);
-
-	return this;
-
-error_alloc:
-	assert(false);
+	return (Player *) is_top;
 }
 
 void destroy_player (
 	in_out Player * this
 ) {
-	destroy_string(this->name);
-	free(this);
+	unused(this);
 }
 
 // METHODS
@@ -39,7 +19,20 @@ void destroy_player (
 String * player_display (
 	in Player * this
 ) {
-	return string_copy(this->name);
+	// Static string pool
+	static String * top_name = 0;
+	static String * bot_name = 0;
+
+	if (!top_name) {
+		top_name = create_string("Top");
+	}
+
+	if (!bot_name) {
+		bot_name = create_string("Bot");
+	}
+
+	// Generate result
+	return string_copy(this ? top_name : bot_name);
 }
 
 // TESTS

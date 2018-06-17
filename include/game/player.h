@@ -11,8 +11,7 @@ typedef struct Player Player;
 // CONSTRUCTORS
 
 Player * create_player (
-	in bool is_top,
-	in String * name
+	in bool is_top
 );
 
 void destroy_player (
