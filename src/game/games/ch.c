@@ -150,8 +150,9 @@ Game * game_ch_inner (
 void test_game_ch () {
 	test_group_start("Ch");
 		test_start("Create");
-			const String * player_name = create_string("Player");
+			String * player_name = create_string("Player");
 			const Player * player = create_player(true, player_name);
+			destroy_string(player_name);
 
 			const Game ** inners = (const Game * [3]) {
 				create_game_triv(player),
