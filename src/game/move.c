@@ -5,9 +5,10 @@
 // CONSTRUCTORS
 
 Move * create_move (
-	in MoveVtbl * vptr
+	in MoveVtbl * vptr,
+	in U64 size
 ) {
-	Move * this = malloc(vptr->size);
+	Move * this = malloc(size);
 	if (!this) goto error_alloc;
 
 	this->vptr = vptr;

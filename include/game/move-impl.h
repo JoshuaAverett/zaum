@@ -17,7 +17,6 @@ typedef String * (* MoveDisplayFn) (
 );
 
 struct MoveVtbl {
-	U64 size;
 	DestroyMoveFn destroy;
 	MoveDisplayFn display;
 };
@@ -29,5 +28,6 @@ struct Move {
 // CONSTRUCTORS
 
 Move * create_move (
-	in MoveVtbl * vptr
+	in MoveVtbl * vptr,
+	in U64 size
 );

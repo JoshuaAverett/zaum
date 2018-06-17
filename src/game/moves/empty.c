@@ -4,14 +4,13 @@
 
 Move * create_move_empty (void) {
 	static const MoveVtbl move_empty_vtbl = {
-		.size = sizeof(MoveEmpty),
 		.destroy = destroy_move_empty,
 		.display = move_empty_display,
 	};
 
-	Move * this = create_move(&move_empty_vtbl);
+	MoveEmpty * this = (MoveEmpty *) create_move(&move_empty_vtbl, sizeof(MoveEmpty));
 
-	return this;
+	return (Move *) this;
 }
 
 void destroy_move_empty (

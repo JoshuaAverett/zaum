@@ -31,7 +31,6 @@ typedef Game * (* GameReduceFn) (
 );
 
 struct GameVtbl {
-	U64 size;
 	DestroyGameFn destroy;
 	DisplayGameFn display;
 	GameCopyFn copy;

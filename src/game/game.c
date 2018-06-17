@@ -13,6 +13,8 @@ Game * create_game (
 
 	this->vptr = vptr;
 
+	return this;
+
 error_alloc:
 	assert(false);
 }
