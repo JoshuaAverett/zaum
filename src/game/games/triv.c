@@ -56,7 +56,7 @@ Game * game_triv_reduce (
 ) {
 	unused(move);
 
-	return game_copy(this);
+	return (Game *) this;
 }
 
 const Player * game_triv_winner (
