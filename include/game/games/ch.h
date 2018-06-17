@@ -16,6 +16,10 @@ Game * create_game_ch (
 
 // METHODS
 
+bool game_is_ch (
+	in Game * this
+);
+
 const Player * game_ch_player (
 	in Game * this
 );

@@ -43,6 +43,12 @@ String * move_ch_display (
 	return create_string(buffer);
 }
 
+bool move_is_ch (
+	in Move * this
+) {
+	return this->vptr->destroy == destroy_move_ch;
+}
+
 U64 move_ch_index (
 	in Move * _this
 ) {
@@ -69,10 +75,12 @@ void test_move_ch () {
 	test_group_start("Ch");
 		test_start("Create");
 			Move * uut = create_move_ch(0, create_move_empty());
+			test_assert(move_is_ch(uut));
 		test_end();
 
 		test_start("Destroy");
 			destroy_move(uut);
+			test_assert(true);
 		test_end();
 	test_group_end();
 }

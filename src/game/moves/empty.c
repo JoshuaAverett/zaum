@@ -29,6 +29,12 @@ String * move_empty_display (
 	return create_string("");
 }
 
+bool move_is_empty (
+	in Move * this
+) {
+	return this->vptr->destroy == destroy_move_empty;
+}
+
 // TESTS
 
 #include <string.h>

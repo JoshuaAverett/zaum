@@ -14,6 +14,10 @@ Game * create_game_triv (
 
 // METHODS
 
+bool game_is_triv (
+	in Game * this
+);
+
 const Player * game_triv_winner (
 	in Game * this
 );

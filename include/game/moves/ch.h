@@ -13,6 +13,10 @@ Move * create_move_ch (
 
 // METHODS
 
+bool move_is_ch (
+	in Move * this
+);
+
 U64 move_ch_index (
 	in Move * this
 );

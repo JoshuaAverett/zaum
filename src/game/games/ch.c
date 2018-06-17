@@ -1,6 +1,6 @@
 #include <game/games/ch-impl.h>
 
-#include <game/moves/ch-impl.h>
+#include <game/moves/ch.h>
 
 #include <string.h>
 
@@ -86,7 +86,6 @@ String * game_ch_display (
 Game * game_ch_copy (
 	in Game * _this
 ) {
-	assert(_this->vptr->destroy == destroy_game_ch);
 	const GameCh * this = (const GameCh *) _this;
 
 	return create_game_ch(this->player, (const Game **) this->inners, this->inner_count);
@@ -100,7 +99,7 @@ bool game_ch_valid (
 
 	LabMove * inner_labmove = create_labmove(labmove_player(labmove), move_ch_inner(move));
 
-	bool result = move->vptr->destroy == destroy_move_ch
+	bool result = move_is_ch(move)
 	           && move_ch_index(move) < game_ch_inner_count(this)
 	           && game_valid(game_ch_inner(this, move_ch_index(move)), inner_labmove);
 
@@ -124,10 +123,16 @@ Game * game_ch_reduce (
 	return result;
 }
 
+bool game_is_ch (
+	in Game * this
+) {
+	return this->vptr->destroy == destroy_game_ch;
+}
+
 U64 game_ch_inner_count (
 	in Game * _this
 ) {
-	assert(_this->vptr->destroy == destroy_game_ch);
+	assert(game_is_ch(_this));
 	const GameCh * this = (const GameCh *) _this;
 
 	return this->inner_count;
@@ -137,7 +142,7 @@ Game * game_ch_inner (
 	in Game * _this,
 	in U64 index
 ) {
-	assert(_this->vptr->destroy == destroy_game_ch);
+	assert(game_is_ch(_this));
 	const GameCh * this = (const GameCh *) _this;
 
 	return this->inners[index];
@@ -161,7 +166,7 @@ void test_game_ch () {
 			};
 
 			Game * uut = create_game_ch(player, inners, 3);
-			test_assert(uut);
+			test_assert(game_is_ch(uut));
 		test_end();
 
 		test_start("Display");

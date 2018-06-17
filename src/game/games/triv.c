@@ -59,10 +59,16 @@ Game * game_triv_reduce (
 	return (Game *) this;
 }
 
+bool game_is_triv (
+	in Game * this
+) {
+	return this->vptr->destroy == destroy_game_triv;
+}
+
 const Player * game_triv_winner (
 	in Game * _this
 ) {
-	assert(_this->vptr->destroy == destroy_game_triv);
+	assert(game_is_triv(_this));
 	const GameTriv * this = (const GameTriv *) _this;
 
 	return this->winner;
