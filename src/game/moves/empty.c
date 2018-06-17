@@ -47,7 +47,9 @@ void test_move_empty () {
 		test_end();
 
 		test_start("Display");
-			test_assert(!strcmp("", string_cstr(move_display(uut))));
+			String * display = move_display(uut);
+			test_assert(!strcmp("", string_cstr(display)));
+			destroy_string(display);
 		test_end();
 
 		test_start("Destroy");

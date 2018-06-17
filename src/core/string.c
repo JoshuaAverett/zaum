@@ -153,6 +153,7 @@ void test_string () {
 		test_start("Copy");
 			String * uut2 = string_copy(uut);
 			test_assert(!strcmp(string_cstr(uut), string_cstr(uut2)));
+			destroy_string(uut2);
 		test_end();
 
 		test_start("Destroy");

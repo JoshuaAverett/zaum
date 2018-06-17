@@ -180,6 +180,7 @@ void test_game_ch () {
 
 		test_start("Destroy");
 			destroy_game(uut);
+			destroy_player(player);
 			test_assert(true);
 		test_end();
 	test_group_end();

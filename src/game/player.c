@@ -39,7 +39,7 @@ void destroy_player (
 String * player_display (
 	in Player * this
 ) {
-	return this->name;
+	return string_copy(this->name);
 }
 
 // TESTS
