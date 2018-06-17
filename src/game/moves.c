@@ -6,5 +6,6 @@ void test_moves () {
 	test_group_start("Moves");
 		test_move();
 		test_move_empty();
+		test_move_ch();
 	test_group_end();
 }
