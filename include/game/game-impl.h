@@ -22,12 +22,12 @@ typedef Game * (* GameCopyFn) (
 
 typedef bool (* GameValidFn) (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 );
 
 typedef Game * (* GameReduceFn) (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 );
 
 struct GameVtbl {

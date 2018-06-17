@@ -42,7 +42,7 @@ Game * game_triv_copy (
 
 bool game_triv_valid (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 ) {
 	unused(this);
 	unused(move);
@@ -52,7 +52,7 @@ bool game_triv_valid (
 
 Game * game_triv_reduce (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 ) {
 	unused(move);
 

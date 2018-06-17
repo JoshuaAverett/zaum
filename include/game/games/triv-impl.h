@@ -31,10 +31,10 @@ String * game_triv_display (
 
 bool game_triv_valid (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 );
 
 Game * game_triv_reduce (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 );

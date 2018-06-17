@@ -42,14 +42,14 @@ Game * game_copy (
 
 bool game_valid (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 ) {
 	return this->vptr->valid(this, move);
 }
 
 Game * game_reduce (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 ) {
 	return this->vptr->reduce(this, move);
 }

@@ -33,10 +33,10 @@ String * game_ch_display (
 
 bool game_ch_valid (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 );
 
 Game * game_ch_reduce (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 );

@@ -94,18 +94,34 @@ Game * game_ch_copy (
 
 bool game_ch_valid (
 	in Game * this,
-	in Move * move
+	in LabMove * labmove
 ) {
-	return move->vptr->destroy == destroy_move_ch
-	    && move_ch_index(move) < game_ch_inner_count(this)
-	    && game_valid(game_ch_inner(this, move_ch_index(move)), move_ch_inner(move));
+	const Move * move = labmove_move(labmove);
+
+	LabMove * inner_labmove = create_labmove(labmove_player(labmove), move_ch_inner(move));
+
+	bool result = move->vptr->destroy == destroy_move_ch
+	           && move_ch_index(move) < game_ch_inner_count(this)
+	           && game_valid(game_ch_inner(this, move_ch_index(move)), inner_labmove);
+
+	destroy_labmove(inner_labmove);
+
+	return result;
 }
 
 Game * game_ch_reduce (
 	in Game * this,
-	in Move * move
+	in LabMove * labmove
 ) {
-	return game_reduce(game_ch_inner(this, move_ch_index(move)), move_ch_inner(move));
+	const Move * move = labmove_move(labmove);
+
+	LabMove * inner_labmove = create_labmove(labmove_player(labmove), move_ch_inner(move));
+
+	Game * result = game_reduce(game_ch_inner(this, move_ch_index(move)), inner_labmove);
+
+	destroy_labmove(inner_labmove);
+
+	return result;
 }
 
 U64 game_ch_inner_count (

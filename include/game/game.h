@@ -2,7 +2,7 @@
 
 #include <master.h>
 
-#include <game/move.h>
+#include <game/labmove.h>
 
 // STRUCTURES
 
@@ -26,11 +26,11 @@ Game * game_copy (
 
 bool game_valid (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 );
 
 Game * game_reduce (
 	in Game * this,
-	in Move * move
+	in LabMove * move
 );
 
