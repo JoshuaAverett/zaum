@@ -17,13 +17,22 @@ String * create_string (
 	in char * value
 ) {
 	const U64 length = strlen(value);
+	String * this = create_string_length(length);
 
+	memcpy(this->value, value, length + 1);
+
+	return this;
+}
+
+String * create_string_length (
+	in U64 length
+) {
 	String * this = malloc(sizeof(String) + length + 1);
 	if (!this) goto error_alloc;
 
 	this->length = length;
 	this->ref_count = 1;
-	memcpy(this->value, value, length + 1);
+	this->value[0] = '\0';
 
 	return this;
 
@@ -40,6 +49,63 @@ void destroy_string (
 	if (!this->ref_count) {
 		free(this);
 	}
+}
+
+// STATIC METHODS
+
+String * string_concat (
+	in String ** parts,
+	in U64 part_count
+) {
+	U64 total_length = 0;
+	for (U64 i = 0; i < part_count; i++) {
+		total_length += string_length(parts[i]);
+	}
+
+	String * result = create_string_length(total_length);
+
+	U64 index = 0;
+	for (U64 i = 0; i < part_count; i++) {
+		const U64 length = string_length(parts[i]);
+		memcpy(&result->value[index], string_cstr(parts[i]), length);
+		index += length;
+	}
+
+	result->value[total_length] = '\0';
+
+	return result;
+}
+
+String * string_seperate (
+	in String * seperator,
+	in String ** parts,
+	in U64 part_count
+) {
+	const char * seperator_cstr = string_cstr(seperator);
+	const U64 seperator_length = string_length(seperator);
+
+	// Calculate total length for seperated string, including n - 1 seperators
+	// with the content
+	U64 total_length = string_length(seperator) * (part_count ? part_count - 1 : 0);
+	for (U64 i = 0; i < part_count; i++) {
+		total_length += string_length(parts[i]);
+	}
+
+	String * result = create_string_length(total_length);
+
+	U64 index = 0;
+	for (U64 i = 0; i < part_count; i++) {
+		const U64 length = string_length(parts[i]);
+		memcpy(&result->value[index], string_cstr(parts[i]), length);
+		index += length;
+
+		if(i < part_count - 1) {
+			memcpy(&result->value[index], seperator_cstr, seperator_length);
+			index += seperator_length;
+		}
+	}
+
+	return result;
 }
 
 // METHODS
