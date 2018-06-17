@@ -98,6 +98,23 @@ void test_finish () {
 	printf("\n\nTesting complete.\n");
 }
 
+void test_print (
+	in char * form,
+	...
+) {
+	// Prints must be in tests
+	assert(test_group_depth > 0);
+
+	// Display message
+	enum { dest_size = 1024 };
+	char dest [dest_size];
+	va_list args;
+	va_start(args, form);
+	vsnprintf(dest, dest_size, form, args);
+	test_message_print("  INFO", dest, "INFO");
+	va_end(args);
+}
+
 void test_assert_inner (
 	in char * form,
 	in bool value

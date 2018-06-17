@@ -21,6 +21,11 @@ void test_end (void);
 
 void test_finish (void);
 
+void test_print (
+	in char * form,
+	...
+);
+
 #define test_assert(...) test_assert_inner(#__VA_ARGS__, __VA_ARGS__)
 
 void test_assert_inner (
