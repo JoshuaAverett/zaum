@@ -8,6 +8,7 @@
 
 #include <game/player.h>
 #include <game/moves.h>
+#include <game/games.h>
 
 // STATIC METHODS
 

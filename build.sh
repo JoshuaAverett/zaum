@@ -3,7 +3,11 @@ set -e
 		clang -c -g -std=gnu11 -I "include" "src/$1.c" -o ".build/$1.o" -Weverything
 	}
 
-	mkdir -p .build .build/core .build/game .build/game/moves
+	mkdir -p .build \
+	         .build/core \
+	         .build/game \
+	         .build/game/moves \
+	         .build/game/games
 
 	compile_file "test-main"
 	compile_file "test"
@@ -16,6 +20,10 @@ set -e
 	compile_file "game/moves"
 	compile_file "game/moves/empty"
 
+	compile_file "game/game"
+	compile_file "game/games"
+	compile_file "game/games/triv"
+
 	cd .build
 		clang -o test \
 			test-main.o \
@@ -24,7 +32,10 @@ set -e
 			game/player.o \
 			game/move.o \
 			game/moves.o \
-			game/moves/empty.o
+			game/moves/empty.o \
+			game/game.o \
+			game/games.o \
+			game/games/triv.o
 
 		./test
 	cd ../..
