@@ -6,7 +6,6 @@ Game * create_game_triv (
 	in Player * winner
 ) {
 	static const GameVtbl game_triv_vtbl = {
-		.size = sizeof(GameTriv),
 		.destroy = destroy_game_triv,
 		.display = game_triv_display,
 		.copy = game_triv_copy,
@@ -14,7 +13,7 @@ Game * create_game_triv (
 		.reduce = game_triv_reduce,
 	};
 
-	GameTriv * this = (GameTriv *) create_game(&game_triv_vtbl);
+	GameTriv * this = (GameTriv *) create_game(&game_triv_vtbl, sizeof(GameTriv));
 
 	this->winner = winner;
 

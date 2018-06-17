@@ -46,5 +46,6 @@ struct Game {
 // CONSTRUCTORS
 
 Game * create_game (
-	in GameVtbl * vptr
+	in GameVtbl * vptr,
+	in U64 size
 );

@@ -5,9 +5,10 @@
 // CONSTRUCTORS
 
 Game * create_game (
-	in GameVtbl * vptr
+	in GameVtbl * vptr,
+	in U64 size
 ) {
-	Game * this = malloc(vptr->size);
+	Game * this = malloc(size);
 	if (!this) goto error_alloc;
 
 	this->vptr = vptr;
