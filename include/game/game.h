@@ -16,6 +16,10 @@ void destroy_game (
 
 // METHODS
 
+String * game_display (
+	in Game * this
+);
+
 Game * game_copy (
 	in Game * this
 );
