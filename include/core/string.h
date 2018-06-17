@@ -26,6 +26,10 @@ const char * string_cstr (
 	in String * this
 );
 
+String * string_copy (
+	in String * this
+);
+
 // TESTS
 
 void test_string (void);

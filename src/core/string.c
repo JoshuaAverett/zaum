@@ -7,6 +7,7 @@
 
 struct String {
 	U64 length;
+	U32 ref_count;
 	char value [];
 };
 
@@ -21,6 +22,7 @@ String * create_string (
 	if (!this) goto error_alloc;
 
 	this->length = length;
+	this->ref_count = 1;
 	memcpy(this->value, value, length + 1);
 
 	return this;
@@ -32,7 +34,12 @@ error_alloc:
 void destroy_string (
 	in_out String * this
 ) {
-	free(this);
+	// BUG: NOT THREAD SAFE
+	this->ref_count--;
+
+	if (!this->ref_count) {
+		free(this);
+	}
 }
 
 // METHODS
@@ -49,6 +56,17 @@ const char * string_cstr (
 	return this->value;
 }
 
+String * string_copy (
+	in String * _this
+) {
+	String * this = (String *) _this;
+
+	// BUG: NOT THREAD SAFE
+	this->ref_count++;
+
+	return this;
+}
+
 // TESTS
 
 void test_string () {
@@ -63,7 +81,12 @@ void test_string () {
 		test_end();
 
 		test_start("Contents");
-			assert(!strcmp(string_cstr(uut), v0));
+			test_assert(!strcmp(string_cstr(uut), v0));
+		test_end();
+
+		test_start("Copy");
+			String * uut2 = string_copy(uut);
+			test_assert(!strcmp(string_cstr(uut), string_cstr(uut2)));
 		test_end();
 
 		test_start("Destroy");
