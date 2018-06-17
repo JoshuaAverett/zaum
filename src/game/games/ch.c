@@ -2,6 +2,7 @@
 
 #include <game/moves/ch.h>
 
+#include <stdio.h>
 #include <string.h>
 
 // CONSTRUCTORS
@@ -44,19 +45,9 @@ String * game_ch_display (
 ) {
 	// Static string pool
 	static String * seperator = 0;
-	static String * header = 0;
-	static String * footer = 0;
 
 	if (!seperator) {
 		seperator = create_string(", ");
-	}
-
-	if (!header) {
-		header = create_string("Ch [");
-	}
-
-	if (!footer) {
-		footer = create_string("]");
 	}
 
 	// Generate seperated list of inner games
@@ -75,7 +66,10 @@ String * game_ch_display (
 	}
 
 	// Generate final result
-	String * result = string_concat((const String * [3]) { header, seperated, footer }, 3);
+	enum { buffer_size = 1024 };
+	char buffer [buffer_size];
+	snprintf(buffer, buffer_size, "Ch [%s]", string_cstr(seperated));
+	String * result = create_string(buffer);
 
 	// Clean up seperated data
 	destroy_string(seperated);
