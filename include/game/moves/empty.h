@@ -1,5 +1,7 @@
 #pragma once
 
+#include <master.h>
+
 #include <game/move-impl.h>
 
 // CONSTRUCTORS

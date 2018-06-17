@@ -33,7 +33,7 @@ String * move_empty_display (
 
 #include <string.h>
 
-void test_move_empty (void) {
+void test_move_empty () {
 	test_group_start("Empty");
 		test_start("Create");
 			Move * uut = create_move_empty();
