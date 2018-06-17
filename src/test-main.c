@@ -24,6 +24,7 @@ int main (
 		test_group_end();
 
 		test_group_start("Game");
+			test_player();
 			test_moves();
 		test_group_end();
 	test_group_end();
