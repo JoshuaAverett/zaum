@@ -1,5 +1,7 @@
 #include <game/game-impl.h>
 
+#include <game/games/triv.h>
+
 #include <malloc.h>
 
 // CONSTRUCTORS
@@ -51,5 +53,9 @@ Game * game_reduce (
 	in Game * this,
 	in LabMove * move
 ) {
+	if (!game_valid(this, move)) {
+		return create_game_triv(player_invert(labmove_player(move)));
+	}
+
 	return this->vptr->reduce(this, move);
 }
