@@ -35,6 +35,12 @@ String * player_display (
 	return string_copy(this ? top_name : bot_name);
 }
 
+Player * player_invert (
+	in Player * this
+) {
+	return create_player(!this);
+}
+
 // TESTS
 
 void test_player (void) {

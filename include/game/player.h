@@ -24,6 +24,10 @@ String * player_display (
 	in Player * this
 );
 
+Player * player_invert (
+	in Player * this
+);
+
 // TESTS
 
 void test_player (void);
