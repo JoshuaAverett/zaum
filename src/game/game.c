@@ -1,6 +1,7 @@
 #include <game/game-impl.h>
 
 #include <game/games/triv.h>
+#include <game/moves/empty.h>
 
 #include <malloc.h>
 
@@ -55,18 +56,26 @@ String * game_display (
 
 bool game_valid (
 	in Game * this,
-	in LabMove * move
+	in LabMove * labmove
 ) {
-	return this->vptr->valid(this, move);
+	if (move_is_empty(labmove_move(labmove))) {
+		return true;
+	}
+
+	return this->vptr->valid(this, labmove);
 }
 
 Game * game_reduce (
 	in Game * this,
-	in LabMove * move
+	in LabMove * labmove
 ) {
-	if (!game_valid(this, move)) {
-		return create_game_triv(player_invert(labmove_player(move)));
+	if (move_is_empty(labmove_move(labmove))) {
+		return game_copy(this);
 	}
 
-	return this->vptr->reduce(this, move);
+	if (!game_valid(this, labmove)) {
+		return create_game_triv(player_invert(labmove_player(labmove)));
+	}
+
+	return this->vptr->reduce(this, labmove);
 }
