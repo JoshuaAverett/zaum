@@ -80,14 +80,16 @@ bool game_ch_valid (
 	in Game * this,
 	in LabMove * labmove
 ) {
+	// Generate inner labmove
 	const Move * move = labmove_move(labmove);
+	LabMove * inner_labmove = create_labmove(labmove_player(labmove), move_copy(move_ch_inner(move)));
 
-	LabMove * inner_labmove = create_labmove(labmove_player(labmove), move_ch_inner(move));
-
+	// Generate result
 	bool result = move_is_ch(move)
 	           && move_ch_index(move) < game_ch_inner_count(this)
 	           && game_valid(game_ch_inner(this, move_ch_index(move)), inner_labmove);
 
+	// Clean up inner labmove
 	destroy_labmove(inner_labmove);
 
 	return result;
@@ -99,7 +101,7 @@ Game * game_ch_reduce (
 ) {
 	// Generate inner labmove
 	const Move * move = labmove_move(labmove);
-	LabMove * inner_labmove = create_labmove(labmove_player(labmove), move_ch_inner(move));
+	LabMove * inner_labmove = create_labmove(labmove_player(labmove), move_copy(move_ch_inner(move)));
 
 	// Apply inner labmove to selected inner game
 	Game * result = game_reduce(game_ch_inner(this, move_ch_index(move)), inner_labmove);
