@@ -15,7 +15,7 @@ typedef struct LabMove LabMove;
 
 LabMove * create_labmove (
 	in Player * player,
-	in Move * move
+	in_out Move * move
 );
 
 void destroy_labmove (
@@ -32,7 +32,7 @@ const Player * labmove_player (
 	in LabMove * this
 );
 
-const Move * labmove_move (
+Move * labmove_move (
 	in LabMove * this
 );
 

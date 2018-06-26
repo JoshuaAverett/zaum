@@ -6,14 +6,14 @@
 
 struct LabMove {
 	const Player * player;
-	const Move * move;
+	Move * move;
 };
 
 // CONSTRUCTORS
 
 LabMove * create_labmove (
 	in Player * player,
-	in Move * move
+	in_out Move * move
 ) {
 	LabMove * this = malloc(sizeof(LabMove));
 	if (!this) goto error_alloc;
@@ -30,6 +30,7 @@ error_alloc:
 void destroy_labmove (
 	in_out LabMove * this
 ) {
+	destroy_move(labmove_move(this));
 	free(this);
 }
 
@@ -60,7 +61,7 @@ const Player * labmove_player (
 	return this->player;
 }
 
-const Move * labmove_move (
+Move * labmove_move (
 	in LabMove * this
 ) {
 	return this->move;
