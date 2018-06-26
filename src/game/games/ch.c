@@ -140,6 +140,7 @@ Game * game_ch_inner (
 // TESTS
 
 #include <game/games/triv.h>
+#include <game/moves/empty.h>
 
 void test_game_ch () {
 	test_group_start("Ch");
@@ -163,6 +164,44 @@ void test_game_ch () {
 			test_assert(display);
 
 			destroy_string(display);
+		test_end();
+
+		test_start("Valid");
+			LabMove * m0 = create_labmove(player, create_move_ch(0, create_move_empty()));
+
+			test_assert(game_valid(uut, m0));
+
+			destroy_labmove(m0);
+		test_end();
+
+		test_start("Valid");
+			LabMove * m1 = create_labmove(player, create_move_ch(2, create_move_empty()));
+
+			test_assert(game_valid(uut, m1));
+
+			destroy_labmove(m1);
+		test_end();
+
+		test_start("Reduce");
+			LabMove * m2 = create_labmove(player, create_move_ch(0, create_move_empty()));
+			Game * r2 = game_reduce(uut, m2);
+
+			test_assert(game_is_triv(r2));
+			test_assert(game_triv_winner(r2) == player);
+
+			destroy_labmove(m2);
+			destroy_game(r2);
+		test_end();
+
+		test_start("Reduce");
+			LabMove * m3 = create_labmove(player, create_move_ch(2, create_move_empty()));
+			Game * r3 = game_reduce(uut, m3);
+
+			test_assert(game_is_triv(r3));
+			test_assert(game_triv_winner(r3) == player);
+
+			destroy_labmove(m3);
+			destroy_game(r3);
 		test_end();
 
 		test_start("Destroy");
