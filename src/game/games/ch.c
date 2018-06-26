@@ -15,7 +15,6 @@ Game * create_game_ch (
 	static const GameVtbl game_ch_vtbl = {
 		.destroy = destroy_game_ch,
 		.display = game_ch_display,
-		.copy = game_ch_copy,
 		.valid = game_ch_valid,
 		.reduce = game_ch_reduce,
 	};
@@ -75,19 +74,6 @@ String * game_ch_display (
 	destroy_string(seperated);
 
 	return result;
-}
-
-Game * game_ch_copy (
-	in Game * _this
-) {
-	const GameCh * this = (const GameCh *) _this;
-
-	const Game * inners [this->inner_count];
-	for (U64 i = 0; i < this->inner_count; i++) {
-		inners[i] = game_copy(game_ch_inner(_this, i));
-	}
-
-	return create_game_ch(this->player, inners, this->inner_count);
 }
 
 bool game_ch_valid (

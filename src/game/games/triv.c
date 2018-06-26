@@ -10,7 +10,6 @@ Game * create_game_triv (
 	static const GameVtbl game_triv_vtbl = {
 		.destroy = destroy_game_triv,
 		.display = game_triv_display,
-		.copy = game_triv_copy,
 		.valid = game_triv_valid,
 		.reduce = game_triv_reduce,
 	};
@@ -34,12 +33,6 @@ String * game_triv_display (
 	in Game * this
 ) {
 	return player_display(game_triv_winner(this));
-}
-
-Game * game_triv_copy (
-	in Game * this
-) {
-	return create_game_triv(game_triv_winner(this));
 }
 
 bool game_triv_valid (

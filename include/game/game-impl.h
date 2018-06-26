@@ -16,10 +16,6 @@ typedef String * (* DisplayGameFn) (
 	in Game * this
 );
 
-typedef Game * (* GameCopyFn) (
-	in Game * this
-);
-
 typedef bool (* GameValidFn) (
 	in Game * this,
 	in LabMove * move
@@ -33,13 +29,13 @@ typedef Game * (* GameReduceFn) (
 struct GameVtbl {
 	DestroyGameFn destroy;
 	DisplayGameFn display;
-	GameCopyFn copy;
 	GameValidFn valid;
 	GameReduceFn reduce;
 };
 
 struct Game {
 	const GameVtbl * vptr;
+	U64 ref_count;
 };
 
 // CONSTRUCTORS

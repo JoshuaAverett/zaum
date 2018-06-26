@@ -23,10 +23,6 @@ void destroy_game_ch (
 
 // METHODS
 
-Game * game_ch_copy (
-	in Game * this
-);
-
 String * game_ch_display (
 	in Game * this
 );

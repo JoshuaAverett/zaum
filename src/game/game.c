@@ -14,6 +14,7 @@ Game * create_game (
 	if (!this) goto error_alloc;
 
 	this->vptr = vptr;
+	this->ref_count = 1;
 
 	return this;
 
@@ -24,22 +25,32 @@ error_alloc:
 void destroy_game (
 	in_out Game * this
 ) {
-	this->vptr->destroy(this);
-	free(this);
+	// BUG: This is not thread safe
+	this->ref_count--;
+
+	if (!this->ref_count) {
+		this->vptr->destroy(this);
+		free(this);
+	}
 }
 
 // METHODS
+
+Game * game_copy (
+	in Game * _this
+) {
+	Game * this = (Game *) _this;
+
+	// BUG: This is not thread safe
+	this->ref_count++;
+
+	return this;
+}
 
 String * game_display (
 	in Game * this
 ) {
 	return this->vptr->display(this);
-}
-
-Game * game_copy (
-	in Game * this
-) {
-	return this->vptr->copy(this);
 }
 
 bool game_valid (
