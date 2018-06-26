@@ -23,6 +23,7 @@ struct MoveVtbl {
 
 struct Move {
 	const MoveVtbl * vptr;
+	U64 ref_count;
 };
 
 // CONSTRUCTORS

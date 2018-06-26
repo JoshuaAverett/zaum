@@ -12,6 +12,7 @@ Move * create_move (
 	if (!this) goto error_alloc;
 
 	this->vptr = vptr;
+	this->ref_count = 1;
 
 	return this;
 
@@ -22,11 +23,27 @@ error_alloc:
 void destroy_move (
 	in_out Move * this
 ) {
-	this->vptr->destroy(this);
-	free(this);
+	// BUG: Not thread safe
+	this->ref_count--;
+
+	if (!this->ref_count) {
+		this->vptr->destroy(this);
+		free(this);
+	}
 }
 
 // METHODS
+
+Move * move_copy (
+	in Move * _this
+) {
+	Move * this = (Move *) _this;
+
+	// BUG: Not thread safe
+	this->ref_count++;
+
+	return this;
+}
 
 String * move_display (
 	in Move * this

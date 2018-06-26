@@ -16,6 +16,10 @@ void destroy_move (
 
 // METHODS
 
+Move * move_copy (
+	in Move * this
+);
+
 String * move_display (
 	in Move * this
 );
