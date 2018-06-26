@@ -6,7 +6,7 @@
 
 Move * create_move_ch (
 	in U64 index,
-	in Move * inner
+	in_out Move * inner
 ) {
 	static const MoveVtbl move_ch_vtbl = {
 		.destroy = destroy_move_ch,
@@ -58,7 +58,7 @@ U64 move_ch_index (
 	return this->index;
 }
 
-const Move * move_ch_inner (
+Move * move_ch_inner (
 	in Move * _this
 ) {
 	assert(_this->vptr->destroy == destroy_move_ch);

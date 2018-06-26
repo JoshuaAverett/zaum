@@ -13,7 +13,7 @@ typedef struct MoveCh MoveCh;
 struct MoveCh {
 	Move super;
 	U64 index;
-	const Move * inner;
+	Move * inner;
 };
 
 // CONSTRUCTORS

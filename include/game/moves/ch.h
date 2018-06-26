@@ -8,7 +8,7 @@
 
 Move * create_move_ch (
 	in U64 index,
-	in Move * inner
+	in_out Move * inner
 );
 
 // METHODS
@@ -21,7 +21,7 @@ U64 move_ch_index (
 	in Move * this
 );
 
-const Move * move_ch_inner (
+Move * move_ch_inner (
 	in Move * this
 );
 
