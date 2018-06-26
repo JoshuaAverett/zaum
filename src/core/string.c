@@ -71,6 +71,7 @@ String * string_concat (
 		index += length;
 	}
 
+	// Place terminating null
 	result->value[total_length] = '\0';
 
 	return result;
@@ -104,6 +105,9 @@ String * string_seperate (
 			index += seperator_length;
 		}
 	}
+
+	// Place terminating null
+	result->value[total_length] = '\0';
 
 	return result;
 }
