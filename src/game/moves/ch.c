@@ -24,7 +24,7 @@ Move * create_move_ch (
 void destroy_move_ch (
 	in_out Move * this
 ) {
-	destroy_move((Move *) move_ch_inner(this));
+	destroy_move(move_ch_inner(this));
 }
 
 // METHODS
@@ -75,11 +75,23 @@ void test_move_ch () {
 	test_group_start("Ch");
 		test_start("Create");
 			Move * uut = create_move_ch(0, create_move_empty());
+
 			test_assert(move_is_ch(uut));
+			test_assert(move_ch_index(uut) == 0);
+		test_end();
+
+		test_start("Display");
+			String * display = move_display(uut);
+
+			test_assert(display);
+			test_print(string_cstr(display));
+
+			destroy_string(display);
 		test_end();
 
 		test_start("Destroy");
 			destroy_move(uut);
+
 			test_assert(true);
 		test_end();
 	test_group_end();

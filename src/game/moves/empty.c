@@ -43,17 +43,22 @@ void test_move_empty () {
 	test_group_start("Empty");
 		test_start("Create");
 			Move * uut = create_move_empty();
-			test_assert(uut);
+
+			test_assert(move_is_empty(uut));
 		test_end();
 
 		test_start("Display");
 			String * display = move_display(uut);
+
+			test_assert(display);
 			test_assert(!strcmp("", string_cstr(display)));
+
 			destroy_string(display);
 		test_end();
 
 		test_start("Destroy");
 			destroy_move(uut);
+
 			test_assert(true);
 		test_end();
 	test_group_end();
