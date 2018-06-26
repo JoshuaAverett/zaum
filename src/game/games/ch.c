@@ -111,12 +111,14 @@ Game * game_ch_reduce (
 	in Game * this,
 	in LabMove * labmove
 ) {
+	// Generate inner labmove
 	const Move * move = labmove_move(labmove);
-
 	LabMove * inner_labmove = create_labmove(labmove_player(labmove), move_ch_inner(move));
 
+	// Apply inner labmove to selected inner game
 	Game * result = game_reduce(game_ch_inner(this, move_ch_index(move)), inner_labmove);
 
+	// Clean up the inner labmove
 	destroy_labmove(inner_labmove);
 
 	return result;
