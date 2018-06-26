@@ -56,7 +56,7 @@ Game * game_triv_reduce (
 ) {
 	unused(move);
 
-	return (Game *) this;
+	return game_copy(this);
 }
 
 bool game_is_triv (
