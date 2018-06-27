@@ -60,6 +60,11 @@ void test_group_end () {
 	// Back down to the lower group level
 	test_group_depth--;
 
+	// Update the lower group level
+	if (test_group_depth) {
+		test_groups[test_group_depth - 1].passed &= test_groups[test_group_depth].passed;
+	}
+
 	// Display progress message
 	test_message_print("GROUP", test_groups[test_group_depth].name, test_pass_message());
 }
