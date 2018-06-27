@@ -82,14 +82,19 @@ bool game_seq_valid (
 	in Game * this,
 	in LabMove * labmove
 ) {
+	// Generate inner labmove
 	const Move * move = labmove_move(labmove);
+	const Player * player = labmove_player(labmove);
 
-	LabMove * inner_labmove = create_labmove(labmove_player(labmove), move_copy(move_seq_inner(move)));
+	LabMove * inner_labmove = create_labmove(player, move_copy(move_seq_inner(move)));
 
+	// Generate result
 	bool result = move_is_seq(move)
+	           && game_seq_player(this) == player
 	           && move_seq_index(move) < game_seq_inner_count(this)
 	           && game_valid(game_seq_inner(this, move_seq_index(move)), inner_labmove);
 
+	// Clean up inner labmove
 	destroy_labmove(inner_labmove);
 
 	return result;

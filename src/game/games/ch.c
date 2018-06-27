@@ -84,10 +84,13 @@ bool game_ch_valid (
 ) {
 	// Generate inner labmove
 	const Move * move = labmove_move(labmove);
-	LabMove * inner_labmove = create_labmove(labmove_player(labmove), move_copy(move_ch_inner(move)));
+	const Player * player = labmove_player(labmove);
+
+	LabMove * inner_labmove = create_labmove(player, move_copy(move_ch_inner(move)));
 
 	// Generate result
 	bool result = move_is_ch(move)
+	           && game_ch_player(this) == player
 	           && move_ch_index(move) < game_ch_inner_count(this)
 	           && game_valid(game_ch_inner(this, move_ch_index(move)), inner_labmove);
 
