@@ -1,7 +1,5 @@
 #include <game/games/triv-impl.h>
 
-#include <game/moves/empty.h>
-
 // CONSTRUCTORS
 
 Game * create_game_triv (
@@ -49,9 +47,10 @@ Game * game_triv_reduce (
 	in Game * this,
 	in LabMove * move
 ) {
+	unused(this);
 	unused(move);
 
-	return game_copy(this);
+	assert(false);
 }
 
 bool game_is_triv (
@@ -70,6 +69,9 @@ const Player * game_triv_winner (
 }
 
 // TESTS
+
+#include <game/moves/empty.h>
+#include <game/moves/ch.h>
 
 void test_game_triv () {
 	test_group_start("Triv");
@@ -105,13 +107,13 @@ void test_game_triv () {
 		test_start("Valid");
 			LabMove * m0 = create_labmove(player, create_move_empty());
 
-			test_assert(!game_valid(uut, m0));
+			test_assert(game_valid(uut, m0));
 
 			destroy_labmove(m0);
 		test_end();
 
 		test_start("Valid");
-			LabMove * m1 = create_labmove(player_invert(player), create_move_empty());
+			LabMove * m1 = create_labmove(player, create_move_ch(0, create_move_empty()));
 
 			test_assert(!game_valid(uut, m1));
 
@@ -123,7 +125,7 @@ void test_game_triv () {
 
 			Game * r2 = game_reduce(uut, m2);
 			test_assert(game_is_triv(r2));
-			test_assert(game_triv_winner(r2) == player_invert(player));
+			test_assert(game_triv_winner(r2) == player);
 
 			destroy_labmove(m2);
 			destroy_game(r2);
