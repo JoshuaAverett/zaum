@@ -21,11 +21,13 @@ set -e
 	compile_file "game/moves"
 	compile_file "game/moves/empty"
 	compile_file "game/moves/ch"
+	compile_file "game/moves/seq"
 
 	compile_file "game/game"
 	compile_file "game/games"
 	compile_file "game/games/triv"
 	compile_file "game/games/ch"
+	compile_file "game/games/seq"
 
 	cd .build
 		clang -o test \
@@ -38,10 +40,12 @@ set -e
 			game/moves.o \
 			game/moves/empty.o \
 			game/moves/ch.o \
+			game/moves/seq.o \
 			game/game.o \
 			game/games.o \
 			game/games/triv.o \
-			game/games/ch.o
+			game/games/ch.o \
+			game/games/seq.o
 
 		./test
 	cd ../..
