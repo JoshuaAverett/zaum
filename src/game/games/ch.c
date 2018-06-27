@@ -123,6 +123,15 @@ bool game_is_ch (
 	return this->vptr->destroy == destroy_game_ch;
 }
 
+const Player * game_ch_player (
+	in Game * _this
+) {
+	assert(game_is_ch(_this));
+	const GameCh * this = (const GameCh *) _this;
+
+	return this->player;
+}
+
 U64 game_ch_inner_count (
 	in Game * _this
 ) {

@@ -141,6 +141,15 @@ bool game_is_seq (
 	return this->vptr->destroy == destroy_game_seq;
 }
 
+const Player * game_seq_player (
+	in Game * _this
+) {
+	assert(game_is_seq(_this));
+	const GameSeq * this = (const GameSeq *) _this;
+
+	return this->player;
+}
+
 U64 game_seq_inner_count (
 	in Game * _this
 ) {
