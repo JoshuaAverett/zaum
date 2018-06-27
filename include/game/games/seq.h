@@ -10,7 +10,7 @@
 
 Game * create_game_seq (
 	in Player * player,
-	in Game ** inners,
+	in_out Game ** inners,
 	in U64 inner_count
 );
 

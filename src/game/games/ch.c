@@ -9,7 +9,7 @@
 
 Game * create_game_ch (
 	in Player * player,
-	in Game ** inners,
+	in_out Game ** inners,
 	in U64 inner_count
 ) {
 	assert(inner_count >= 2);
@@ -149,7 +149,7 @@ void test_game_ch () {
 		test_start("Create");
 			Player * player = create_player(true);
 
-			const Game ** inners = (const Game * [3]) {
+			Game ** inners = (Game * [3]) {
 				create_game_triv(player),
 				create_game_triv(player),
 				create_game_triv(player),

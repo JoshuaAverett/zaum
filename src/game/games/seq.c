@@ -9,7 +9,7 @@
 
 Game * create_game_seq (
 	in Player * player,
-	in Game ** inners,
+	in_out Game ** inners,
 	in U64 inner_count
 ) {
 	assert(inner_count >= 2);
@@ -115,7 +115,7 @@ Game * game_seq_reduce (
 		result = inner_reduction;
 	} else {
 		const U64 inner_count = this->inner_count - index;
-		const Game * inners [inner_count];
+		Game * inners [inner_count];
 		inners[0] = inner_reduction;
 
 		for (U64 i = 1; i < inner_count; i++) {
@@ -165,7 +165,7 @@ void test_game_seq () {
 		test_start("Create");
 			Player * player = create_player(true);
 
-			const Game ** inners = (const Game * [3]) {
+			Game ** inners = (Game * [3]) {
 				create_game_triv(player),
 				create_game_triv(player),
 				create_game_triv(player),
