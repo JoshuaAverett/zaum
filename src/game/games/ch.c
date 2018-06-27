@@ -184,6 +184,14 @@ void test_game_ch () {
 			destroy_labmove(m1);
 		test_end();
 
+		test_start("Valid");
+			LabMove * m4 = create_labmove(player_invert(player), create_move_ch(2, create_move_empty()));
+
+			test_assert(!game_valid(uut, m4));
+
+			destroy_labmove(m4);
+		test_end();
+
 		test_start("Reduce");
 			LabMove * m2 = create_labmove(player, create_move_ch(0, create_move_empty()));
 			Game * r2 = game_reduce(uut, m2);
