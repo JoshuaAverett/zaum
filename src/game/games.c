@@ -7,5 +7,6 @@ void test_games () {
 		test_game_triv();
 		test_game_ch();
 		test_game_seq();
+		test_game_tog();
 	test_group_end();
 }
