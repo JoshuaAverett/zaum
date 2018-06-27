@@ -12,6 +12,8 @@ Game * create_game_seq (
 	in Game ** inners,
 	in U64 inner_count
 ) {
+	assert(inner_count >= 2);
+
 	static const GameVtbl game_seq_vtbl = {
 		.destroy = destroy_game_seq,
 		.display = game_seq_display,

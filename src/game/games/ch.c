@@ -12,6 +12,8 @@ Game * create_game_ch (
 	in Game ** inners,
 	in U64 inner_count
 ) {
+	assert(inner_count >= 2);
+
 	static const GameVtbl game_ch_vtbl = {
 		.destroy = destroy_game_ch,
 		.display = game_ch_display,
