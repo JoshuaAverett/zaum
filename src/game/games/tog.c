@@ -13,8 +13,6 @@ Game * create_game_tog (
 	in_out Game ** inners,
 	in U64 inner_count
 ) {
-	assert(inner_count >= 2);
-
 	static const GameVtbl game_tog_vtbl = {
 		.destroy = destroy_game_tog,
 		.display = game_tog_display,

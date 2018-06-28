@@ -12,8 +12,6 @@ Game * create_game_seq (
 	in_out Game ** inners,
 	in U64 inner_count
 ) {
-	assert(inner_count >= 2);
-
 	static const GameVtbl game_seq_vtbl = {
 		.destroy = destroy_game_seq,
 		.display = game_seq_display,
@@ -115,21 +113,17 @@ Game * game_seq_reduce (
 	Game * inner_reduction = game_reduce(game_seq_inner(_this, index), inner_labmove);
 
 	// Generate result
-	Game * result;
-	if (index == this->inner_count - 1) {
-		result = inner_reduction;
-	} else {
-		const U64 inner_count = this->inner_count - index;
-		Game * inners [inner_count];
-		inners[0] = inner_reduction;
+	const U64 inner_count = this->inner_count - index;
+	Game * inners [inner_count];
+	inners[0] = inner_reduction;
 
-		for (U64 i = 1; i < inner_count; i++) {
-			inners[i] = game_copy(game_seq_inner(_this, index + i));
-		}
-
-		result = create_game_seq(this->player, inners, inner_count);
+	for (U64 i = 1; i < inner_count; i++) {
+		inners[i] = game_copy(game_seq_inner(_this, index + i));
 	}
 
+	Game * result = create_game_seq(this->player, inners, inner_count);
+
+	// Clean up inner labmove
 	destroy_labmove(inner_labmove);
 
 	return result;
@@ -229,8 +223,8 @@ void test_game_seq () {
 			LabMove * m3 = create_labmove(player, create_move_seq(2, create_move_empty()));
 			Game * r3 = game_reduce(uut, m3);
 
-			test_assert(game_is_triv(r3));
-			test_assert(game_triv_winner(r3) == player);
+			test_assert(game_is_seq(r3));
+			test_assert(game_seq_inner_count(r3) == game_seq_inner_count(uut));
 
 			destroy_labmove(m3);
 			destroy_game(r3);
