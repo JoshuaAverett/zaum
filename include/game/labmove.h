@@ -36,6 +36,10 @@ Move * labmove_move (
 	in LabMove * this
 );
 
+LabMove * labmove_invert (
+	in LabMove * this
+);
+
 // TESTS
 
 void test_labmove (void);

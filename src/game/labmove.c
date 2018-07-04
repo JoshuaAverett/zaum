@@ -67,6 +67,12 @@ Move * labmove_move (
 	return this->move;
 }
 
+LabMove * labmove_invert (
+	in LabMove * this
+) {
+	return create_labmove(player_invert(labmove_player(this)), move_copy(labmove_move(this)));
+}
+
 // TESTS
 
 #include <game/moves/empty.h>
@@ -79,13 +85,39 @@ void test_labmove () {
 
 			LabMove * uut = create_labmove(player, move);
 
-			assert(labmove_player(uut) == player);
-			assert(labmove_move(uut) == move);
+			test_assert(uut);
+		test_end();
+
+		test_start("Player");
+			test_assert(labmove_player(uut) == player);
+		test_end();
+
+		test_start("Move");
+			test_assert(labmove_move(uut) == move);
+		test_end();
+
+		test_start("Display");
+			String * display = labmove_display(uut);
+
+			test_print(string_cstr(display));
+			test_assert(display);
+
+			destroy_string(display);
+		test_end();
+
+		test_start("Invert");
+			LabMove * inverse = labmove_invert(uut);
+
+			test_assert(labmove_player(inverse) == player_invert(player));
+
+			destroy_labmove(inverse);
 		test_end();
 
 		test_start("Destroy");
 			destroy_labmove(uut);
 			destroy_player(player);
+
+			test_assert(true);
 		test_end();
 	test_group_end();
 }
