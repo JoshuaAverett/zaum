@@ -3,6 +3,7 @@
 #include <master.h>
 
 #include <game/labmove.h>
+#include <game/run.h>
 
 // STRUCTURES
 
@@ -29,8 +30,17 @@ bool game_valid (
 	in LabMove * move
 );
 
+bool game_valid_run (
+	in Game * this,
+	in Run * run
+);
+
 Game * game_reduce (
 	in Game * this,
 	in LabMove * move
 );
 
+Game * game_reduce_run (
+	in Game * this,
+	in Run * run
+);

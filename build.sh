@@ -16,6 +16,7 @@ set -e
 
 	compile_file "game/player"
 	compile_file "game/labmove"
+	compile_file "game/run"
 
 	compile_file "game/move"
 	compile_file "game/moves"
@@ -40,6 +41,7 @@ set -e
 			core/string.o \
 			game/player.o \
 			game/labmove.o \
+			game/run.o \
 			game/move.o \
 			game/moves.o \
 			game/moves/empty.o \

@@ -65,6 +65,33 @@ bool game_valid (
 	return this->vptr->valid(this, labmove);
 }
 
+bool game_valid_run (
+	in Game * this,
+	in Run * run
+) {
+	Game * result = game_copy(this);
+
+	for (U64 i = 0; i < run_length(run); i++) {
+		const LabMove * move = run_index(run, i);
+
+		// Check for validity
+		if (!game_valid(result, move)) {
+			return false;
+		}
+
+		// Generate replacement
+		Game * replacement = game_reduce(result, move);
+
+		// Update result
+		destroy_game(result);
+		result = replacement;
+	}
+
+	destroy_game(result);
+
+	return true;
+}
+
 Game * game_reduce (
 	in Game * this,
 	in LabMove * labmove
@@ -78,4 +105,21 @@ Game * game_reduce (
 	}
 
 	return this->vptr->reduce(this, labmove);
+}
+
+Game * game_reduce_run (
+	in Game * this,
+	in Run * run
+) {
+	Game * result = game_copy(this);
+
+	for (U64 i = 0; i < run_length(run); i++) {
+		Game * replacement = game_reduce(result, run_index(run, i));
+
+		// Replace result
+		destroy_game(result);
+		result = replacement;
+	}
+
+	return result;
 }
