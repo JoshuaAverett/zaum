@@ -17,6 +17,7 @@ Game * create_game_par (
 		.display = game_par_display,
 		.valid = game_par_valid,
 		.reduce = game_par_reduce,
+		.invert = game_par_invert,
 	};
 
 	const U64 inner_size = sizeof(inners[0]) * inner_count;
@@ -122,6 +123,19 @@ Game * game_par_reduce (
 	destroy_labmove(inner_labmove);
 
 	return result;
+}
+
+Game * game_par_invert (
+	in Game * this
+) {
+	const U64 count = game_par_inner_count(this);
+
+	Game * inners [count];
+	for (U64 i = 0; i < count; i++) {
+		inners[i] = game_invert(game_par_inner(this, i));
+	}
+
+	return create_game_par(player_invert(game_par_player(this)), inners, count);
 }
 
 bool game_is_par (

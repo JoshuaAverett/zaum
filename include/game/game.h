@@ -44,3 +44,7 @@ Game * game_reduce_run (
 	in Game * this,
 	in Run * run
 );
+
+Game * game_invert (
+	in Game * this
+);

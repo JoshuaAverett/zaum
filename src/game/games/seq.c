@@ -17,6 +17,7 @@ Game * create_game_seq (
 		.display = game_seq_display,
 		.valid = game_seq_valid,
 		.reduce = game_seq_reduce,
+		.invert = game_seq_invert,
 	};
 
 	const U64 inner_size = sizeof(inners[0]) * inner_count;
@@ -127,6 +128,19 @@ Game * game_seq_reduce (
 	destroy_labmove(inner_labmove);
 
 	return result;
+}
+
+Game * game_seq_invert (
+	in Game * this
+) {
+	const U64 count = game_seq_inner_count(this);
+
+	Game * inners [count];
+	for (U64 i = 0; i < count; i++) {
+		inners[i] = game_invert(game_seq_inner(this, i));
+	}
+
+	return create_game_seq(player_invert(game_seq_player(this)), inners, count);
 }
 
 bool game_is_seq (

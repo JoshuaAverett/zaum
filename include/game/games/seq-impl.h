@@ -36,3 +36,7 @@ Game * game_seq_reduce (
 	in Game * this,
 	in LabMove * move
 );
+
+Game * game_seq_invert (
+	in Game * this
+);

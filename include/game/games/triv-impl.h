@@ -38,3 +38,7 @@ Game * game_triv_reduce (
 	in Game * this,
 	in LabMove * move
 );
+
+Game * game_triv_invert (
+	in Game * this
+);

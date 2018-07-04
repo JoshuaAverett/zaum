@@ -10,6 +10,7 @@ Game * create_game_triv (
 		.display = game_triv_display,
 		.valid = game_triv_valid,
 		.reduce = game_triv_reduce,
+		.invert = game_triv_invert,
 	};
 
 	GameTriv * this = (GameTriv *) create_game(&game_triv_vtbl, sizeof(GameTriv));
@@ -51,6 +52,12 @@ Game * game_triv_reduce (
 	unused(move);
 
 	assert(false);
+}
+
+Game * game_triv_invert (
+	in Game * this
+) {
+	return create_game_triv(player_invert(game_triv_winner(this)));
 }
 
 bool game_is_triv (

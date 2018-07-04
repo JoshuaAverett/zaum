@@ -37,3 +37,7 @@ Game * game_tog_reduce (
 	in Game * this,
 	in LabMove * move
 );
+
+Game * game_tog_invert (
+	in Game * this
+);

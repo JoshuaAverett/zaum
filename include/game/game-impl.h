@@ -26,11 +26,16 @@ typedef Game * (* GameReduceFn) (
 	in LabMove * move
 );
 
+typedef Game * (* GameInvertFn) (
+	in Game * this
+);
+
 struct GameVtbl {
 	DestroyGameFn destroy;
 	DisplayGameFn display;
 	GameValidFn valid;
 	GameReduceFn reduce;
+	GameInvertFn invert;
 };
 
 struct Game {

@@ -18,6 +18,7 @@ Game * create_game_tog (
 		.display = game_tog_display,
 		.valid = game_tog_valid,
 		.reduce = game_tog_reduce,
+		.invert = game_tog_invert,
 	};
 
 	const U64 inner_size = sizeof(inners[0]) * inner_count;
@@ -127,6 +128,22 @@ Game * game_tog_reduce (
 	destroy_labmove(inner_labmove);
 
 	return result;
+}
+
+Game * game_tog_invert (
+	in Game * this
+) {
+	const U64 count = game_tog_inner_count(this);
+
+	Game * inners [count];
+	for (U64 i = 0; i < count; i++) {
+		inners[i] = game_invert(game_tog_inner(this, i));
+	}
+
+	return create_game_tog(player_invert(game_tog_player(this)),
+	                       game_tog_index(this),
+	                       inners,
+	                       count);
 }
 
 bool game_is_tog (

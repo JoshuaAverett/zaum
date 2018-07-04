@@ -11,6 +11,13 @@ Game * create_game (
 	in GameVtbl * vptr,
 	in U64 size
 ) {
+	assert(vptr);
+	assert(vptr->destroy);
+	assert(vptr->display);
+	assert(vptr->valid);
+	assert(vptr->reduce);
+	assert(vptr->invert);
+
 	Game * this = malloc(size);
 	if (!this) goto error_alloc;
 
@@ -26,6 +33,10 @@ error_alloc:
 void destroy_game (
 	in_out Game * this
 ) {
+	assert(this);
+	assert(this->vptr);
+	assert(this->vptr->destroy);
+
 	// BUG: This is not thread safe
 	this->ref_count--;
 
@@ -40,6 +51,7 @@ void destroy_game (
 Game * game_copy (
 	in Game * _this
 ) {
+	assert(_this);
 	Game * this = (Game *) _this;
 
 	// BUG: This is not thread safe
@@ -51,6 +63,10 @@ Game * game_copy (
 String * game_display (
 	in Game * this
 ) {
+	assert(this);
+	assert(this->vptr);
+	assert(this->vptr->display);
+
 	return this->vptr->display(this);
 }
 
@@ -58,6 +74,10 @@ bool game_valid (
 	in Game * this,
 	in LabMove * labmove
 ) {
+	assert(this);
+	assert(this->vptr);
+	assert(this->vptr->valid);
+
 	if (move_is_empty(labmove_move(labmove))) {
 		return true;
 	}
@@ -96,6 +116,10 @@ Game * game_reduce (
 	in Game * this,
 	in LabMove * labmove
 ) {
+	assert(this);
+	assert(this->vptr);
+	assert(this->vptr->reduce);
+
 	if (move_is_empty(labmove_move(labmove))) {
 		return game_copy(this);
 	}
@@ -122,4 +146,14 @@ Game * game_reduce_run (
 	}
 
 	return result;
+}
+
+Game * game_invert (
+	in Game * this
+) {
+	assert(this);
+	assert(this->vptr);
+	assert(this->vptr->invert);
+
+	return this->vptr->invert(this);
 }
