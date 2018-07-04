@@ -224,7 +224,7 @@ void test_game_seq () {
 			Game * r3 = game_reduce(uut, m3);
 
 			test_assert(game_is_seq(r3));
-			test_assert(game_seq_inner_count(r3) == game_seq_inner_count(uut));
+			test_assert(game_seq_inner_count(r3) == 1);
 
 			destroy_labmove(m3);
 			destroy_game(r3);
