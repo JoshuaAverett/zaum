@@ -86,6 +86,12 @@ Game * game_neg_reduce (
 Game * game_neg_simplify (
 	in Game * this
 ) {
+	const Game * inner = game_neg_inner(this);
+
+	if (game_is_neg(inner)) {
+		return game_copy(game_neg_inner(inner));
+	}
+
 	return game_copy(this);
 }
 
@@ -187,6 +193,17 @@ void test_game_neg () {
 
 			destroy_game(r3);
 			destroy_labmove(m3);
+		test_end();
+
+		test_start("Simplify");
+			Game * complex = create_game_neg(create_game_neg(create_game_triv(player)));
+			Game * simple = game_simplify(complex);
+
+			test_assert(game_is_neg(complex));
+			test_assert(game_is_triv(simple));
+
+			destroy_game(simple);
+			destroy_game(complex);
 		test_end();
 
 		test_start("Destroy");
