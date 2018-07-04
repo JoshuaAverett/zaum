@@ -1,5 +1,7 @@
 #include <game/games/ch-impl.h>
 
+#include <game/games/triv.h>
+
 #include <game/moves/ch.h>
 
 #include <stdio.h>
@@ -17,6 +19,7 @@ Game * create_game_ch (
 		.display = game_ch_display,
 		.valid = game_ch_valid,
 		.reduce = game_ch_reduce,
+		.simplify = game_ch_simplify,
 		.invert = game_ch_invert,
 	};
 
@@ -116,6 +119,26 @@ Game * game_ch_reduce (
 	return result;
 }
 
+Game * game_ch_simplify (
+	in Game * this
+) {
+	assert(this);
+
+	const U64 count = game_ch_inner_count(this);
+
+	if (count == 0) {
+		return create_game_triv(player_invert(game_ch_player(this)));
+	} else if (count == 1) {
+		return game_ch_inner(this, 0);
+	}
+
+	Game * inners [count];
+	for (U64 i = 0; i < count; i++) {
+		inners[i] = game_simplify(game_ch_inner(this, i));
+	}
+
+	return create_game_ch(game_ch_player(this), inners, count);
+}
 
 Game * game_ch_invert (
 	in Game * this
@@ -166,7 +189,6 @@ Game * game_ch_inner (
 
 // TESTS
 
-#include <game/games/triv.h>
 #include <game/moves/empty.h>
 
 void test_game_ch () {
