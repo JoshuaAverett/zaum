@@ -1,0 +1,21 @@
+Games are defined by the following files
+
+include/game/games/*.h
+include/game/games/*-impl.h
+src/game/games/*.c
+
+Game types are collected in the following files
+
+include/game/games.h
+src/game/games.c
+
+Moves are defined by the following files
+
+include/game/moves/*.h
+include/game/moves/*-impl.h
+src/game/moves/*.c
+
+Move types are collected in the following files
+
+include/game/moves.h
+src/game/moves.c
