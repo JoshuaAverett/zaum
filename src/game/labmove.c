@@ -69,7 +69,23 @@ Move * labmove_move (
 
 // TESTS
 
+#include <game/moves/empty.h>
+
 void test_labmove () {
 	test_group_start("Labmove");
+		test_start("Create");
+			Player * player = create_player(true);
+			Move * move = create_move_empty();
+
+			LabMove * uut = create_labmove(player, move);
+
+			assert(labmove_player(uut) == player);
+			assert(labmove_move(uut) == move);
+		test_end();
+
+		test_start("Destroy");
+			destroy_labmove(uut);
+			destroy_player(player);
+		test_end();
 	test_group_end();
 }
