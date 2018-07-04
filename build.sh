@@ -1,6 +1,6 @@
 set -e
 	compile_file () {
-		clang -c -g -std=gnu11 -I "include" "src/$1.c" -o ".build/$1.o" -Weverything
+		clang -c -g -std=gnu11 -I "include" "src/$1.c" -o ".build/$1.o" -Weverything -Werror
 	}
 
 	mkdir -p .build \
