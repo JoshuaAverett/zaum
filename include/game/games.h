@@ -6,6 +6,7 @@
 #include <game/games/ch.h>
 #include <game/games/seq.h>
 #include <game/games/tog.h>
+#include <game/games/par.h>
 
 // TESTS
 
