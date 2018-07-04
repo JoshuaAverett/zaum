@@ -55,14 +55,32 @@ bool game_neg_valid (
 	in Game * this,
 	in LabMove * move
 ) {
-	return game_valid(game_invert(game_neg_inner(this)), move);
+	// Generate inverse
+	Game * inverse = game_invert(game_neg_inner(this));
+
+	// Generate result
+	bool result = game_valid(inverse, move);
+
+	// Clean up inverse
+	destroy_game(inverse);
+
+	return result;
 }
 
 Game * game_neg_reduce (
 	in Game * this,
 	in LabMove * move
 ) {
-	return game_reduce(game_invert(game_neg_inner(this)), move);
+	// Generate inverse
+	Game * inverse = game_invert(game_neg_inner(this));
+
+	// Generate result
+	Game * result = game_reduce(inverse, move);
+
+	// Clean up inverse
+	destroy_game(inverse);
+
+	return result;
 }
 
 Game * game_neg_simplify (
