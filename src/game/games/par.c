@@ -1,5 +1,6 @@
 #include <game/games/par-impl.h>
 
+#include <game/games/triv.h>
 #include <game/moves/par.h>
 
 #include <stdio.h>
@@ -17,6 +18,7 @@ Game * create_game_par (
 		.display = game_par_display,
 		.valid = game_par_valid,
 		.reduce = game_par_reduce,
+		.simplify = game_par_simplify,
 		.invert = game_par_invert,
 	};
 
@@ -123,6 +125,36 @@ Game * game_par_reduce (
 	destroy_labmove(inner_labmove);
 
 	return result;
+}
+
+Game * game_par_simplify (
+	in Game * this
+) {
+	const U64 count = game_par_inner_count(this);
+
+	if (count == 0) {
+		return create_game_triv(player_invert(game_par_player(this)));
+	} else if (count == 1) {
+		return game_par_inner(this, 0);
+	}
+
+	bool all_top = true, all_bot = true;
+	Game * inners [count];
+	for (U64 i = 0; i < count; i++) {
+		Game * inner = game_simplify(game_par_inner(this, i));
+		inners[i] = inner;
+
+		all_top &= game_is_triv(inner) && game_triv_winner(inner);
+		all_bot &= game_is_triv(inner) && !game_triv_winner(inner);
+	}
+
+	if (all_top) {
+		return create_game_triv(create_player(true));
+	} else if (all_bot) {
+		return create_game_triv(create_player(true));
+	}
+
+	return create_game_par(game_par_player(this), inners, count);
 }
 
 Game * game_par_invert (

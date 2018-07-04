@@ -18,6 +18,7 @@ Game * create_game_seq (
 		.display = game_seq_display,
 		.valid = game_seq_valid,
 		.reduce = game_seq_reduce,
+		.simplify = game_seq_simplify,
 		.invert = game_seq_invert,
 	};
 
@@ -142,9 +143,20 @@ Game * game_seq_simplify (
 		return game_copy(game_seq_inner(this, 0));
 	}
 
+	bool all_top = true, all_bot = true;
 	Game * inners [count];
 	for (U64 i = 0; i < count; i++) {
-		inners[i] = game_simplify(game_seq_inner(this, 0));
+		Game * inner = game_simplify(game_seq_inner(this, 0));
+		inners[i] = inner;
+
+		all_top &= game_is_triv(inner) && game_triv_winner(inner);
+		all_bot &= game_is_triv(inner) && !game_triv_winner(inner);
+	}
+
+	if (all_top) {
+		return create_game_triv(create_player(true));
+	} else if (all_bot) {
+		return create_game_triv(create_player(false));
 	}
 
 	return create_game_seq(game_seq_player(this), inners, count);

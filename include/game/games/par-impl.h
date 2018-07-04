@@ -37,6 +37,10 @@ Game * game_par_reduce (
 	in LabMove * move
 );
 
+Game * game_par_simplify (
+	in Game * this
+);
+
 Game * game_par_invert (
 	in Game * this
 );
