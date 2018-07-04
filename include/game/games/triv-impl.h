@@ -21,10 +21,6 @@ void destroy_game_triv (
 
 // METHODS
 
-Game * game_triv_copy (
-	in Game * this
-);
-
 String * game_triv_display (
 	in Game * this
 );
