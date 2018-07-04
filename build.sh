@@ -29,6 +29,7 @@ set -e
 	compile_file "game/game"
 	compile_file "game/games"
 	compile_file "game/games/triv"
+	compile_file "game/games/neg"
 	compile_file "game/games/ch"
 	compile_file "game/games/seq"
 	compile_file "game/games/tog"
@@ -52,6 +53,7 @@ set -e
 			game/game.o \
 			game/games.o \
 			game/games/triv.o \
+			game/games/neg.o \
 			game/games/ch.o \
 			game/games/seq.o \
 			game/games/tog.o \
