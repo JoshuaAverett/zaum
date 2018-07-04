@@ -26,6 +26,10 @@ typedef Game * (* GameReduceFn) (
 	in LabMove * move
 );
 
+typedef Game * (* GameSimplifyFn) (
+	in Game * this
+);
+
 typedef Game * (* GameInvertFn) (
 	in Game * this
 );
@@ -35,6 +39,7 @@ struct GameVtbl {
 	DisplayGameFn display;
 	GameValidFn valid;
 	GameReduceFn reduce;
+	GameSimplifyFn simplify;
 	GameInvertFn invert;
 };
 

@@ -148,6 +148,19 @@ Game * game_reduce_run (
 	return result;
 }
 
+Game * game_simplify (
+	in Game * this
+) {
+	assert(this);
+	assert(this->vptr);
+
+	if (!this->vptr->simplify) {
+		return game_copy(this);
+	}
+
+	return this->vptr->simplify(this);
+}
+
 Game * game_invert (
 	in Game * this
 ) {
