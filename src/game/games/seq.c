@@ -1,5 +1,6 @@
 #include <game/games/seq-impl.h>
 
+#include <game/games/triv.h>
 #include <game/moves/seq.h>
 
 #include <stdio.h>
@@ -128,6 +129,25 @@ Game * game_seq_reduce (
 	destroy_labmove(inner_labmove);
 
 	return result;
+}
+
+Game * game_seq_simplify (
+	in Game * this
+) {
+	const U64 count = game_seq_inner_count(this);
+
+	if (count == 0) {
+		return create_game_triv(game_seq_player(this));
+	} else if(count == 1) {
+		return game_copy(game_seq_inner(this, 0));
+	}
+
+	Game * inners [count];
+	for (U64 i = 0; i < count; i++) {
+		inners[i] = game_simplify(game_seq_inner(this, 0));
+	}
+
+	return create_game_seq(game_seq_player(this), inners, count);
 }
 
 Game * game_seq_invert (
