@@ -38,6 +38,10 @@ Game * game_tog_reduce (
 	in LabMove * move
 );
 
+Game * game_tog_simplify (
+	in Game * this
+);
+
 Game * game_tog_invert (
 	in Game * this
 );

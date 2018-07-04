@@ -1,5 +1,6 @@
 #include <game/games/tog-impl.h>
 
+#include <game/games/triv.h>
 #include <game/moves/tog.h>
 
 #include <stdio.h>
@@ -18,6 +19,7 @@ Game * create_game_tog (
 		.display = game_tog_display,
 		.valid = game_tog_valid,
 		.reduce = game_tog_reduce,
+		.simplify = game_tog_simplify,
 		.invert = game_tog_invert,
 	};
 
@@ -128,6 +130,25 @@ Game * game_tog_reduce (
 	destroy_labmove(inner_labmove);
 
 	return result;
+}
+
+Game * game_tog_simplify (
+	in Game * this
+) {
+	const U64 count = game_tog_inner_count(this);
+
+	if (count == 0) {
+		return create_game_triv(player_invert(game_tog_player(this)));
+	} else if (count == 1) {
+		return game_tog_inner(this, 0);
+	}
+
+	Game * inners [count];
+	for (U64 i = 0; i < count; i++) {
+		inners[i] = game_simplify(game_tog_inner(this, i));
+	}
+
+	return create_game_tog(game_tog_player(this), game_tog_index(this), inners, count);
 }
 
 Game * game_tog_invert (
