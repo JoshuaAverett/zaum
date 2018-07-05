@@ -195,7 +195,7 @@ void test_game_neg () {
 			destroy_labmove(m3);
 		test_end();
 
-		test_start("Simplify");
+		test_start("Simplify Double Neg");
 			Game * complex = create_game_neg(create_game_neg(create_game_triv(player)));
 			Game * simple = game_simplify(complex);
 

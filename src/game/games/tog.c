@@ -135,31 +135,88 @@ Game * game_tog_reduce (
 Game * game_tog_simplify (
 	in Game * this
 ) {
+	assert(this);
+
 	const U64 count = game_tog_inner_count(this);
 
-	if (count == 0) {
+	switch (count) {
+	case 0:
 		return create_game_triv(player_invert(game_tog_player(this)));
-	} else if (count == 1) {
+
+	case 1:
 		return game_tog_inner(this, 0);
+
+	default:
+		break;
 	}
 
-	bool all_top = true, all_bot = true;
+	// Simplify inners
 	Game * inners [count];
 	for (U64 i = 0; i < count; i++) {
-		Game * inner = game_simplify(game_tog_inner(this, i));
-		inners[i] = inner;
-
-		all_top &= game_is_triv(inner) && game_triv_winner(inner);
-		all_bot &= game_is_triv(inner) && !game_triv_winner(inner);
+		inners[i] = game_simplify(game_tog_inner(this, i));
 	}
 
-	if (all_top) {
-		return create_game_triv(create_player(true));
-	} else if (all_bot) {
-		return create_game_triv(create_player(false));
+	// Check for all trivial games with the same player
+	if (game_is_triv(inners[0])) {
+		const Player * player = game_triv_winner(inners[0]);
+		bool replace = true;
+
+		for (U64 i = 1; i < count; i++) {
+			if (!game_is_triv(inners[i])) {
+				replace = false;
+				break;
+			} else if (game_triv_winner(inners[i]) != player) {
+				replace = false;
+				break;
+			}
+		}
+
+		if (replace) {
+			return create_game_triv(player);
+		}
 	}
 
-	return create_game_tog(game_tog_player(this), game_tog_index(this), inners, count);
+	// Check for inner tog games
+	U64 combined_count = count;
+	for (U64 i = 0; i < count; i++) {
+		// If an inner game is a tog game, remove it and add its contets (-1 + n)
+		if (game_is_tog(inners[i])) {
+			combined_count += game_tog_inner_count(inners[i]) - 1;
+		}
+	}
+
+	// Generate combined inners
+	U64 index = 0;
+	Game * combined_inners [combined_count];
+	U64 combined_index = 0;
+
+	for (U64 i = 0; i < count; i++) {
+		U64 index_update = 1;
+
+		if (game_is_tog(inners[i])) {
+			// Collect inner inner games and copy them to the combined inners
+			Game ** ii = ((GameTog *) inners[i])->inners;
+			const U64 ii_count = game_tog_inner_count(inners[i]);
+			memcpy(&combined_inners[index], ii, ii_count * sizeof(ii[0]));
+			index_update = ii_count;
+		} else {
+			combined_inners[index] = inners[i];
+		}
+
+		index += index_update;
+
+		if (i < game_tog_index(this)) {
+			combined_index += index_update;
+		} else if (i == game_tog_index(this)) {
+			if (game_is_tog(inners[i])) {
+				combined_index += game_tog_index(inners[i]);
+			}
+		}
+	}
+
+	assert(index == combined_count);
+
+	return create_game_tog(game_tog_player(this), combined_index, combined_inners, combined_count);
 }
 
 Game * game_tog_invert (
@@ -320,6 +377,27 @@ void test_game_tog () {
 			destroy_game(r5);
 			destroy_game(r6);
 			destroy_labmove(m5);
+		test_end();
+
+		test_start("Simplify Compound Tog");
+			Game * c1 = create_game_tog(player, 1, (Game * [2]) {
+					create_game_tog(player, 1, (Game * [2]) {
+							create_game_triv(player),
+							create_game_triv(player_invert(player)),
+						}, 2),
+					create_game_tog(player, 1, (Game * [2]) {
+							create_game_triv(player_invert(player)),
+							create_game_triv(player),
+						}, 2),
+				}, 2);
+			Game * s1 = game_simplify(c1);
+
+			test_assert(game_is_tog(s1));
+			test_assert(game_tog_inner_count(s1) == 4);
+			test_assert(game_tog_index(s1) == 3);
+
+			destroy_game(s1);
+			destroy_game(c1);
 		test_end();
 
 		test_start("Destroy");

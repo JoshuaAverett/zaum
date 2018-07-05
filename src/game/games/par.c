@@ -130,31 +130,74 @@ Game * game_par_reduce (
 Game * game_par_simplify (
 	in Game * this
 ) {
+	assert(this);
+
 	const U64 count = game_par_inner_count(this);
 
-	if (count == 0) {
+	switch (count) {
+	case 0:
 		return create_game_triv(player_invert(game_par_player(this)));
-	} else if (count == 1) {
+
+	case 1:
 		return game_par_inner(this, 0);
+
+	default:
+		break;
 	}
 
-	bool all_top = true, all_bot = true;
+	// Simplify inners
 	Game * inners [count];
 	for (U64 i = 0; i < count; i++) {
-		Game * inner = game_simplify(game_par_inner(this, i));
-		inners[i] = inner;
-
-		all_top &= game_is_triv(inner) && game_triv_winner(inner);
-		all_bot &= game_is_triv(inner) && !game_triv_winner(inner);
+		inners[i] = game_simplify(game_par_inner(this, i));
 	}
 
-	if (all_top) {
-		return create_game_triv(create_player(true));
-	} else if (all_bot) {
-		return create_game_triv(create_player(true));
+	// Check for all trivial games with the same player
+	if (game_is_triv(inners[0])) {
+		const Player * player = game_triv_winner(inners[0]);
+		bool replace = true;
+
+		for (U64 i = 1; i < count; i++) {
+			if (!game_is_triv(inners[i])) {
+				replace = false;
+				break;
+			} else if (game_triv_winner(inners[i]) != player) {
+				replace = false;
+				break;
+			}
+		}
+
+		if (replace) {
+			return create_game_triv(player);
+		}
 	}
 
-	return create_game_par(game_par_player(this), inners, count);
+	// Check for inner par games
+	U64 combined_count = count;
+	for (U64 i = 0; i < count; i++) {
+		// If an inner game is a par game, remove it and add its contets (-1 + n)
+		if (game_is_par(inners[i])) {
+			combined_count += game_par_inner_count(inners[i]) - 1;
+		}
+	}
+
+	U64 index = 0;
+	Game * combined_inners [combined_count];
+	for (U64 i = 0; i < count; i++) {
+		if (game_is_par(inners[i])) {
+			// Collect inner inner games and copy them to the combined inners
+			Game ** ii = ((GamePar *) inners[i])->inners;
+			const U64 ii_count = game_par_inner_count(inners[i]);
+			memcpy(&combined_inners[index], ii, ii_count * sizeof(ii[0]));
+			index += ii_count;
+		} else {
+			combined_inners[index] = inners[i];
+			index++;
+		}
+	}
+
+	assert(index == combined_count);
+
+	return create_game_par(game_par_player(this), combined_inners, combined_count);
 }
 
 Game * game_par_invert (
@@ -269,6 +312,26 @@ void test_game_par () {
 
 			destroy_game(r3);
 			destroy_labmove(m3);
+		test_end();
+
+		test_start("Simplify Compound Par");
+			Game * c1 = create_game_par(player, (Game * [2]) {
+					create_game_par(player, (Game * [2]) {
+							create_game_triv(player),
+							create_game_triv(player_invert(player)),
+						}, 2),
+					create_game_par(player, (Game * [2]) {
+							create_game_triv(player_invert(player)),
+							create_game_triv(player),
+						}, 2),
+				}, 2);
+			Game * s1 = game_simplify(c1);
+
+			test_assert(game_is_par(s1));
+			test_assert(game_par_inner_count(s1) == 4);
+
+			destroy_game(s1);
+			destroy_game(c1);
 		test_end();
 
 		test_start("Destroy");
