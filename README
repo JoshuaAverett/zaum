@@ -1,3 +1,10 @@
+Introduction
+
+For a general introduction to computability logic and its relationship to game theory and general mathematics and programming,
+please visit http://www.csc.villanova.edu/~japaridz/CL
+
+Implementation
+
 Games are defined by the following files
 
 include/game/games/*.h
